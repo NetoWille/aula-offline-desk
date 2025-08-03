@@ -55,9 +55,13 @@ export default {
 				// Educational app theme colors
 				educational: {
 					primary: 'hsl(var(--educational-primary))',
+					'primary-light': 'hsl(var(--educational-primary-light))',
 					bg: 'hsl(var(--educational-bg))',
 					card: 'hsl(var(--educational-card))',
 					accent: 'hsl(var(--educational-accent))',
+					'accent-soft': 'hsl(var(--educational-accent-soft))',
+					success: 'hsl(var(--educational-success))',
+					warning: 'hsl(var(--educational-warning))',
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',

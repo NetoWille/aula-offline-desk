@@ -8,49 +8,55 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 244 244 249;
-    --foreground: 222.2 84% 4.9%;
+    --background: 250 250 252;
+    --foreground: 51 65 85;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 255 255 255;
+    --card-foreground: 51 65 85;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 255 255 255;
+    --popover-foreground: 51 65 85;
 
-    --primary: 210 86% 32%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 100 116 139;
+    --primary-foreground: 248 250 252;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 241 245 249;
+    --secondary-foreground: 71 85 105;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 248 250 252;
+    --muted-foreground: 100 116 139;
 
-    --accent: 43 96% 56%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 186 230 253;
+    --accent-foreground: 14 116 144;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 239 68 68;
+    --destructive-foreground: 248 250 252;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 226 232 240;
+    --input: 226 232 240;
+    --ring: 148 163 184;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
     
-    /* Custom tokens for pedagogical app */
-    --educational-primary: 210 86% 32%;
-    --educational-bg: 244 244 249;
-    --educational-card: 0 0% 100%;
-    --educational-accent: 43 96% 56%;
+    /* Custom pastel tokens */
+    --educational-primary: 100 116 139;
+    --educational-primary-light: 148 163 184;
+    --educational-bg: 250 250 252;
+    --educational-card: 255 255 255;
+    --educational-accent: 186 230 253;
+    --educational-accent-soft: 224 242 254;
+    --educational-success: 187 247 208;
+    --educational-warning: 254 240 138;
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--educational-primary)), hsl(210 86% 40%));
-    --gradient-card: linear-gradient(135deg, hsl(var(--educational-primary)), hsl(210 86% 45%));
+    /* Soft gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--educational-primary)), hsl(var(--educational-primary-light)));
+    --gradient-card: linear-gradient(135deg, hsl(var(--educational-accent)), hsl(var(--educational-accent-soft)));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--educational-bg)), hsl(var(--educational-card)));
     
-    /* Shadows */
-    --shadow-card: 0 4px 6px hsl(var(--educational-primary) / 0.1);
-    --shadow-hover: 0 8px 25px hsl(var(--educational-primary) / 0.2);
+    /* Soft shadows */
+    --shadow-soft: 0 4px 6px hsl(var(--educational-primary) / 0.05);
+    --shadow-medium: 0 10px 15px hsl(var(--educational-primary) / 0.08);
+    --shadow-large: 0 20px 25px hsl(var(--educational-primary) / 0.1);
 
     --sidebar-background: 0 0% 98%;
 
