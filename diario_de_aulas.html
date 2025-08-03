@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário de Aulas Digital</title>
+    
+    <style>
+        /* Reset e configurações básicas */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f4f4f9;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Verdana', sans-serif;
+            color: #005a9c;
+        }
+
+        /* Layout principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Sistema de telas */
+        .tela {
+            display: none;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .tela.ativa {
+            display: block;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #005a9c;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        /* Botões */
+        .btn {
+            background: #005a9c;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Verdana', sans-serif;
+        }
+
+        .btn:hover {
+            background: #003d6b;
+            transform: translateY(-2px);
+        }
+
+        .btn-secundario {
+            background: #6c757d;
+        }
+
+        .btn-secundario:hover {
+            background: #545b62;
+        }
+
+        /* Grid de turmas */
+        .turmas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .turma-card {
+            background: linear-gradient(135deg, #005a9c, #0066b3);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .turma-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 90, 156, 0.3);
+        }
+
+        .turma-card h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        /* Calendário */
+        .calendario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .calendario-navegacao {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .calendario {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendario th,
+        .calendario td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .calendario th {
+            background: #005a9c;
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendario td {
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .calendario td:hover {
+            background: #f0f8ff;
+        }
+
+        .dia-com-aula {
+            background: #e3f2fd !important;
+            font-weight: bold;
+            color: #005a9c;
+        }
+
+        .dia-com-aula:hover {
+            background: #bbdefb !important;
+        }
+
+        /* Conteúdo da aula */
+        .aula-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #005a9c, #0066b3);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .aula-conteudo {
+            margin: 20px 0;
+        }
+
+        .slide {
+            margin: 25px 0;
+            padding: 20px;
+            border-left: 4px solid #005a9c;
+            background: #f8f9fa;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .slide-titulo {
+            font-size: 1.8em;
+            color: #005a9c;
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .slide-conceito {
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+
+        .slide-formula {
+            text-align: center;
+            font-size: 1.5em;
+            margin: 30px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #005a9c;
+        }
+
+        /* Notas do professor */
+        .notas-professor {
+            margin-top: 30px;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .notas-header {
+            background: #ffc107;
+            color: #000;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .notas-conteudo {
+            padding: 20px;
+            background: #fffbf0;
+            display: none;
+        }
+
+        .notas-conteudo.ativo {
+            display: block;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .tela {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .turmas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendario-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+
+        /* KaTeX Styles (simplificados) */
+        .katex {
+            font: normal 1.21em KaTeX_Main, "Times New Roman", serif;
+        }
+        
+        .katex-display {
+            display: block;
+            margin: 1em 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Tela de Seleção de Turmas -->
+        <div id="tela-turmas" class="tela ativa">
+            <div class="header">
+                <h1>📚 Diário de Aulas Digital</h1>
+                <p>Selecione uma turma para acessar o calendário de aulas</p>
+            </div>
+            
+            <div class="turmas-grid">
+                <div class="turma-card" onclick="mostrarCalendario('6')">
+                    <h3>6º Ano</h3>
+                    <p>Matemática Fundamental</p>
+                </div>
+                
+                <div class="turma-card" onclick="mostrarCalendario('7')">
+                    <h3>7º Ano</h3>
+                    <p>Álgebra Básica</p>
+                </div>
+                
+                <div class="turma-card" onclick="mostrarCalendario('9')">
+                    <h3>9º Ano</h3>
+                    <p>Função Quadrática</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela do Calendário -->
+        <div id="tela-calendario" class="tela">
+            <div class="calendario-header">
+                <h2 id="titulo-calendario">Calendário - 9º Ano</h2>
+                <div class="calendario-navegacao">
+                    <button class="btn btn-secundario" onclick="mostrarTela('tela-turmas')">← Voltar às Turmas</button>
+                    <button class="btn" onclick="mudarMes(-1)">← Mês Anterior</button>
+                    <span id="mes-ano">Agosto 2025</span>
+                    <button class="btn" onclick="mudarMes(1)">Próximo Mês →</button>
+                </div>
+            </div>
+            
+            <table id="calendario" class="calendario">
+                <!-- Será preenchido pelo JavaScript -->
+            </table>
+            
+            <div style="margin-top: 20px; text-align: center; color: #666;">
+                <p>💡 <strong>Dica:</strong> Clique nos dias destacados para acessar o conteúdo da aula</p>
+            </div>
+        </div>
+
+        <!-- Tela da Aula -->
+        <div id="tela-aula" class="tela">
+            <button class="btn btn-secundario" onclick="voltarCalendario()" style="margin-bottom: 20px;">← Voltar ao Calendário</button>
+            
+            <div id="aula-header" class="aula-header">
+                <!-- Será preenchido pelo JavaScript -->
+            </div>
+            
+            <div id="aula-conteudo" class="aula-conteudo">
+                <!-- Será preenchido pelo JavaScript -->
+            </div>
+            
+            <div class="notas-professor">
+                <div class="notas-header" onclick="toggleNotas()">
+                    📝 Notas para o Professor
+                    <span id="notas-icone">▼</span>
+                </div>
+                <div id="notas-conteudo" class="notas-conteudo">
+                    <!-- Será preenchido pelo JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados das Aulas
+        const dadosDasAulas = {
+            "9": { // 9º Ano
+                "2025-08-06": {
+                    titulo: "Vértice da Parábola",
+                    conteudo: [
+                        { 
+                            tipo: 'titulo', 
+                            texto: '🎯 O Ponto Mais Importante da Parábola: O Vértice!' 
+                        },
+                        { 
+                            tipo: 'conceito', 
+                            texto: 'O <strong>vértice</strong> é o ponto onde a parábola "vira". É o ponto mais alto (se a parábola abre para baixo) ou mais baixo (se abre para cima).' 
+                        },
+                        { 
+                            tipo: 'conceito', 
+                            texto: '📊 <strong>Interpretação Importante:</strong><br>• Se a > 0 (concavidade ∪), o vértice é o <strong>PONTO DE MÍNIMO</strong><br>• Se a < 0 (concavidade ∩), o vértice é o <strong>PONTO DE MÁXIMO</strong>' 
+                        },
+                        { 
+                            tipo: 'formula', 
+                            texto: 'Fórmulas do Vértice:<br><br>X_v = -b/(2a)  |  Y_v = -Δ/(4a)<br><br>Onde Δ = b² - 4ac' 
+                        },
+                        { 
+                            tipo: 'conceito', 
+                            texto: '💡 <strong>Dica Prática:</strong> O X do vértice sempre está no "meio" entre as raízes da função!' 
+                        },
+                        { 
+                            tipo: 'titulo', 
+                            texto: '📝 Exemplo Prático' 
+                        },
+                        { 
+                            tipo: 'conceito', 
+                            texto: 'Vamos encontrar o vértice de: f(x) = x² - 4x + 3<br><br>• a = 1, b = -4, c = 3<br>• X_v = -(-4)/(2×1) = 4/2 = 2<br>• Δ = (-4)² - 4×1×3 = 16 - 12 = 4<br>• Y_v = -4/(4×1) = -1<br><br><strong>Vértice: (2, -1)</strong>' 
+                        }
+                    ],
+                    notasProfessor: `
+                        🎯 <strong>Estratégia da Aula:</strong><br>
+                        • Comece retomando o gráfico da função anterior<br>
+                        • Destaque visualmente onde fica o vértice<br>
+                        • Mostre que o vértice é o "ponto de virada"<br><br>
+                        
+                        ⚠️ <strong>Pontos de Atenção:</strong><br>
+                        • Muitos alunos confundem o sinal na fórmula X_v = -b/(2a)<br>
+                        • Reforce que quando a > 0, o vértice é mínimo<br>
+                        • Use exemplos visuais sempre que possível<br><br>
+                        
+                        💡 <strong>Dica Extra:</strong><br>
+                        Relacione com situações do cotidiano: altura máxima de uma bola, lucro máximo de uma empresa, etc.
+                    `
+                },
+                "2025-08-13": {
+                    titulo: "Gráfico da Função Quadrática",
+                    conteudo: [
+                        { 
+                            tipo: 'titulo', 
+                            texto: '📈 Construindo o Gráfico da Parábola' 
+                        },
+                        { 
+                            tipo: 'conceito', 
+                            texto: 'Para construir o gráfico de uma função quadrática, precisamos de alguns pontos importantes:<br>• <strong>Vértice</strong><br>• <strong>Raízes</strong> (se existirem)<br>• <strong>Ponto de intersecção com o eixo Y</strong>' 
+                        }
+                    ],
+                    notasProfessor: 'Usar papel quadriculado e régua para maior precisão nos gráficos.'
+                }
+            },
+            "7": {
+                "2025-08-07": {
+                    titulo: "Equações do 1º Grau",
+                    conteudo: [
+                        { 
+                            tipo: 'titulo', 
+                            texto: '⚖️ Resolvendo Equações do 1º Grau' 
+                        },
+                        { 
+                            tipo: 'conceito', 
+                            texto: 'Uma equação do 1º grau tem a forma: ax + b = 0, onde a ≠ 0' 
+                        }
+                    ],
+                    notasProfessor: 'Usar a analogia da balança para explicar o conceito de igualdade.'
+                }
+            },
+            "6": {
+                "2025-08-05": {
+                    titulo: "Frações Equivalentes",
+                    conteudo: [
+                        { 
+                            tipo: 'titulo', 
+                            texto: '🍕 Descobrindo Frações Equivalentes' 
+                        },
+                        { 
+                            tipo: 'conceito', 
+                            texto: 'Frações equivalentes representam a mesma quantidade, mas são escritas de formas diferentes.' 
+                        }
+                    ],
+                    notasProfessor: 'Usar pizzas e chocolates como exemplos visuais.'
+                }
+            }
+        };
+
+        // Variáveis globais
+        let turmaAtual = '';
+        let mesAtual = 8; // Agosto
+        let anoAtual = 2025;
+        let aulaAtual = null;
+
+        // Nomes dos meses
+        const nomesMeses = [
+            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        ];
+
+        // Inicialização
+        function inicializarApp() {
+            console.log('Diário de Aulas Digital carregado!');
+        }
+
+        // Navegação entre telas
+        function mostrarTela(idTela) {
+            // Esconde todas as telas
+            document.querySelectorAll('.tela').forEach(tela => {
+                tela.classList.remove('ativa');
+            });
+            
+            // Mostra a tela solicitada
+            document.getElementById(idTela).classList.add('ativa');
+        }
+
+        // Mostrar calendário de uma turma
+        function mostrarCalendario(turma) {
+            turmaAtual = turma;
+            document.getElementById('titulo-calendario').textContent = `Calendário - ${turma}º Ano`;
+            renderizarCalendario();
+            mostrarTela('tela-calendario');
+        }
+
+        // Renderizar calendário
+        function renderizarCalendario() {
+            const calendario = document.getElementById('calendario');
+            const mesAnoSpan = document.getElementById('mes-ano');
+            
+            mesAnoSpan.textContent = `${nomesMeses[mesAtual - 1]} ${anoAtual}`;
+            
+            // Cabeçalho do calendário
+            let html = `
+                <tr>
+                    <th>Dom</th>
+                    <th>Seg</th>
+                    <th>Ter</th>
+                    <th>Qua</th>
+                    <th>Qui</th>
+                    <th>Sex</th>
+                    <th>Sáb</th>
+                </tr>
+            `;
+            
+            // Calcular primeiro dia do mês e quantos dias tem
+            const primeiroDia = new Date(anoAtual, mesAtual - 1, 1).getDay();
+            const diasNoMes = new Date(anoAtual, mesAtual, 0).getDate();
+            
+            let dia = 1;
+            
+            // Renderizar semanas
+            for (let semana = 0; semana < 6; semana++) {
+                html += '<tr>';
+                
+                for (let diaSemana = 0; diaSemana < 7; diaSemana++) {
+                    if (semana === 0 && diaSemana < primeiroDia) {
+                        html += '<td></td>';
+                    } else if (dia > diasNoMes) {
+                        html += '<td></td>';
+                    } else {
+                        const dataFormatada = `${anoAtual}-${String(mesAtual).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+                        const temAula = dadosDasAulas[turmaAtual] && dadosDasAulas[turmaAtual][dataFormatada];
+                        
+                        const classe = temAula ? 'dia-com-aula' : '';
+                        const onclick = temAula ? `onclick="carregarAula('${dataFormatada}')"` : '';
+                        
+                        html += `<td class="${classe}" ${onclick}>${dia}</td>`;
+                        dia++;
+                    }
+                }
+                
+                html += '</tr>';
+                
+                if (dia > diasNoMes) break;
+            }
+            
+            calendario.innerHTML = html;
+        }
+
+        // Mudar mês
+        function mudarMes(direcao) {
+            mesAtual += direcao;
+            
+            if (mesAtual > 12) {
+                mesAtual = 1;
+                anoAtual++;
+            } else if (mesAtual < 1) {
+                mesAtual = 12;
+                anoAtual--;
+            }
+            
+            renderizarCalendario();
+        }
+
+        // Carregar aula
+        function carregarAula(data) {
+            const aula = dadosDasAulas[turmaAtual][data];
+            if (!aula) return;
+            
+            aulaAtual = { data, turma: turmaAtual };
+            
+            // Header da aula
+            const dataFormatada = new Date(data + 'T00:00:00').toLocaleDateString('pt-BR');
+            document.getElementById('aula-header').innerHTML = `
+                <h2>${aula.titulo}</h2>
+                <p>📅 ${dataFormatada} • ${turmaAtual}º Ano</p>
+            `;
+            
+            // Conteúdo da aula
+            let conteudoHtml = '';
+            aula.conteudo.forEach(slide => {
+                if (slide.tipo === 'titulo') {
+                    conteudoHtml += `<div class="slide slide-titulo">${slide.texto}</div>`;
+                } else if (slide.tipo === 'conceito') {
+                    conteudoHtml += `<div class="slide slide-conceito">${slide.texto}</div>`;
+                } else if (slide.tipo === 'formula') {
+                    conteudoHtml += `<div class="slide slide-formula">${slide.texto}</div>`;
+                }
+            });
+            
+            document.getElementById('aula-conteudo').innerHTML = conteudoHtml;
+            
+            // Notas do professor
+            document.getElementById('notas-conteudo').innerHTML = aula.notasProfessor;
+            
+            // Esconder notas inicialmente
+            document.getElementById('notas-conteudo').classList.remove('ativo');
+            document.getElementById('notas-icone').textContent = '▼';
+            
+            mostrarTela('tela-aula');
+        }
+
+        // Voltar ao calendário
+        function voltarCalendario() {
+            mostrarCalendario(turmaAtual);
+        }
+
+        // Toggle notas do professor
+        function toggleNotas() {
+            const notasConteudo = document.getElementById('notas-conteudo');
+            const notasIcone = document.getElementById('notas-icone');
+            
+            if (notasConteudo.classList.contains('ativo')) {
+                notasConteudo.classList.remove('ativo');
+                notasIcone.textContent = '▼';
+            } else {
+                notasConteudo.classList.add('ativo');
+                notasIcone.textContent = '▲';
+            }
+        }
+
+        // Inicializar quando a página carregar
+        window.addEventListener('load', inicializarApp);
+    </script>
+</body>
+</html>
