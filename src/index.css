@@ -8,45 +8,45 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 250 250 252;
-    --foreground: 51 65 85;
+    --background: 240 25% 98.4%;
+    --foreground: 215.3 25% 26.7%;
 
-    --card: 255 255 255;
-    --card-foreground: 51 65 85;
+    --card: 0 0% 100%;
+    --card-foreground: 215.3 25% 26.7%;
 
-    --popover: 255 255 255;
-    --popover-foreground: 51 65 85;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215.3 25% 26.7%;
 
-    --primary: 100 116 139;
-    --primary-foreground: 248 250 252;
+    --primary: 215.4 16.3% 46.9%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 241 245 249;
-    --secondary-foreground: 71 85 105;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 215.3 19.3% 34.5%;
 
-    --muted: 248 250 252;
-    --muted-foreground: 100 116 139;
+    --muted: 210 40% 98%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 186 230 253;
-    --accent-foreground: 14 116 144;
+    --accent: 200.6 94.4% 86.1%;
+    --accent-foreground: 192.9 82.3% 31%;
 
-    --destructive: 239 68 68;
-    --destructive-foreground: 248 250 252;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 226 232 240;
-    --input: 226 232 240;
-    --ring: 148 163 184;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 215 20.2% 65.1%;
 
     --radius: 0.75rem;
     
     /* Custom pastel tokens */
-    --educational-primary: 100 116 139;
-    --educational-primary-light: 148 163 184;
-    --educational-bg: 250 250 252;
-    --educational-card: 255 255 255;
-    --educational-accent: 186 230 253;
-    --educational-accent-soft: 224 242 254;
-    --educational-success: 187 247 208;
-    --educational-warning: 254 240 138;
+    --educational-primary: 215.4 16.3% 46.9%;
+    --educational-primary-light: 215 20.2% 65.1%;
+    --educational-bg: 240 25% 98.4%;
+    --educational-card: 0 0% 100%;
+    --educational-accent: 200.6 94.4% 86.1%;
+    --educational-accent-soft: 204 93.8% 93.7%;
+    --educational-success: 141 78.9% 85.1%;
+    --educational-warning: 52.8 98.3% 76.9%;
     
     /* Soft gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--educational-primary)), hsl(var(--educational-primary-light)));
@@ -121,5 +121,9 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    /* Respeita o notch e a barra de navegação quando instalado no celular */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
   }
 }
