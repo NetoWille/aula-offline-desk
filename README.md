@@ -71,3 +71,15 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+## 📱 App de celular (PWA)
+
+O Diário de Aulas é um **Progressive Web App**: pode ser instalado na tela inicial do celular e funciona **sem internet** depois do primeiro acesso.
+
+1. Publique o projeto (`npm run build` gera a pasta `dist/`; no Lovable basta clicar em *Publish*). O site precisa estar em **HTTPS**.
+2. Abra o endereço no celular:
+   - **Android (Chrome):** menu ⋮ → **Instalar app** / **Adicionar à tela inicial**.
+   - **iPhone (Safari):** botão Compartilhar → **Adicionar à Tela de Início**.
+3. Pronto: o ícone aparece junto aos outros apps, abre em tela cheia e funciona offline.
+
+Para testar localmente: `npm run build && npm run preview`.
